@@ -90,10 +90,13 @@ async function start() {
     await prisma.$connect()
     logger.info('Database connected')
 
-    // Ensure MinIO bucket exists before any file operations
-    const { ensureBucket } = await import('./lib/minio')
-    await ensureBucket()
-    logger.info('MinIO bucket ready')
+    // Ensure MinIO bucket exists before any file operations (non-fatal if offline)
+    try {
+      const { ensureBucket } = await import('./lib/minio')
+      await ensureBucket()
+    } catch (err: any) {
+      logger.warn(`MinIO startup warning: ${err.message}`)
+    }
 
     startWorkers()
     logger.info('BullMQ workers started')
