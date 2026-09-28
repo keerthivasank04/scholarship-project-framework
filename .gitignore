@@ -16,6 +16,11 @@ out/
 !.env.example
 credentials.txt
 
+# TLS certificates (self-signed or Let's Encrypt — never commit)
+nginx/certs/*.pem
+nginx/certs/*.crt
+nginx/certs/*.key
+
 # Claude AI files
 CLAUDE.md
 .claude/

@@ -8,7 +8,10 @@ services:
     restart: unless-stopped
     environment:
       - API_INTERNAL_URL=http://api:4000
-      - NEXT_PUBLIC_API_URL=http://api:4000
+      # NEXT_PUBLIC_API_URL must be empty string so browser calls go through
+      # the Next.js /api/proxy/* route (server-side, where api:4000 resolves).
+      # For a public deployment set this to https://yourdomain.com
+      - NEXT_PUBLIC_API_URL=
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
     depends_on:
@@ -115,9 +118,10 @@ services:
 
   # ── MinIO (Object Storage) ────────────────────────────────────────────
   minio:
-    image: quay.io/minio/aistor/minio:RELEASE.2026-08-07T18-34-35Z
+    image: chainguard/minio:latest
     container_name: scholarship_minio
     restart: unless-stopped
+    entrypoint: ["/usr/bin/minio"]
     command: server /data --console-address ":9001"
     environment:
       - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
