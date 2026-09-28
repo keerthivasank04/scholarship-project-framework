@@ -115,7 +115,7 @@ services:
 
   # ── MinIO (Object Storage) ────────────────────────────────────────────
   minio:
-    image: minio/minio:latest
+    image: quay.io/minio/aistor/minio:RELEASE.2026-08-07T18-34-35Z
     container_name: scholarship_minio
     restart: unless-stopped
     command: server /data --console-address ":9001"
