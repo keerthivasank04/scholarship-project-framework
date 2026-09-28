@@ -86,16 +86,18 @@ services:
       - key: PORT
         value: 5000
 
-# ── Managed Databases ────────────────────────────────────────────────────────
+  # ── Managed Key-Value / Redis (Valkey) ─────────────────────────────────────
+  - type: keyvalue
+    name: scholarship-redis
+    plan: free
+    region: oregon
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+
+# ── Managed PostgreSQL Database ──────────────────────────────────────────────
 databases:
   - name: scholarship-db
     plan: free
     region: oregon
     databaseName: scholarship_db
     user: scholarship
-
-# ── Managed Key-Value / Redis ────────────────────────────────────────────────
-keyvalues:
-  - name: scholarship-redis
-    plan: free
-    region: oregon
