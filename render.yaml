@@ -11,19 +11,9 @@ services:
       - key: NODE_ENV
         value: production
       - key: API_INTERNAL_URL
-        fromService:
-          type: web
-          name: scholarship-api
-          property: host
+        value: http://scholarship-api:4000
       - key: NEXT_PUBLIC_API_URL
         value: ""
-      - key: NEXTAUTH_SECRET
-        generateValue: true
-      - key: NEXTAUTH_URL
-        fromService:
-          type: web
-          name: scholarship-web
-          property: url
 
   # ── Backend API (Express + Prisma + BullMQ) ────────────────────────────────
   - type: web
@@ -48,19 +38,13 @@ services:
           name: scholarship-redis
           property: connectionString
       - key: ML_SERVICE_URL
-        fromService:
-          type: web
-          name: scholarship-ml
-          property: host
+        value: http://scholarship-ml:5000
       - key: JWT_SECRET
         generateValue: true
       - key: ML_ANOMALY_THRESHOLD
         value: "0.65"
       - key: APP_URL
-        fromService:
-          type: web
-          name: scholarship-web
-          property: url
+        sync: false
       - key: MINIO_ENDPOINT
         value: play.min.io
       - key: MINIO_PORT
